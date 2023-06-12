@@ -27,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.0  # Replace with your desired release tag
-          release_name: Release v1.0.0  # Replace with your desired release name
+          tag_name: ${{ github.ref }} 
+          release_name: Release ${{ github.ref }} 
           draft: true
 
       - name: Upload EXE as Release Asset
