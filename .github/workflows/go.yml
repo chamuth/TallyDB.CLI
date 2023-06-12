@@ -23,7 +23,7 @@ jobs:
 
       - name: Create Release Draft
         id: create_release
-        uses: actions/create-release@v1.0.5
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload EXE as Release Asset
         id: upload_asset
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
