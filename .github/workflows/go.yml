@@ -1,0 +1,43 @@
+name: Build and Release Windows EXE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build Windows EXE
+        run: GOOS=windows GOARCH=amd64 go build -o tallycli.exe
+
+      - name: Create Release Draft
+        id: create_release
+        uses: actions/create-release@v1.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0  # Replace with your desired release tag
+          release_name: Release v1.0.0  # Replace with your desired release name
+          draft: true
+
+      - name: Upload EXE as Release Asset
+        id: upload_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tallycli.exe
+          asset_name: tallycli.exe
+          asset_content_type: application/octet-stream
